@@ -1,9 +1,9 @@
 package docx
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
-	"html"
 	"strings"
 	"sync"
 )
@@ -55,10 +55,14 @@ func (r *Replacer) Replace(placeholderKey string, value string) error {
 
 			// ensure html escaping of special chars
 			// reassign to prevent overwriting the actual value which would cause multiple-escapes
-			tmpVal := html.EscapeString(value)
+			//tmpVal := html.EscapeString(value)
+			tmpVal := value
+			valueInBytes := bytes.Replace(
+				[]byte(tmpVal),
+				[]byte("\n"), []byte("</w:t><w:br/><w:t>"), -1)
 
 			// replace text of the placeholder'str first fragment with the actual value
-			r.replaceFragmentValue(placeholder.Fragments[0], tmpVal)
+			r.replaceFragmentValue(placeholder.Fragments[0], string(valueInBytes))
 
 			// the other fragments of the placeholder are cut, leaving only the value inside the document.
 			for i := 1; i < len(placeholder.Fragments); i++ {
