@@ -72,7 +72,6 @@ func Open(path string) (*Document, error) {
 // Note: In this case, the docxFile property will be nil!
 func OpenBytes(b []byte) (*Document, error) {
 	rc, err := zip.NewReader(bytes.NewReader(b), int64(len(b)))
-
 	if err != nil {
 		return nil, fmt.Errorf("unable to open zip reader: %s", err)
 	}
@@ -275,9 +274,9 @@ func (d *Document) SetFile(fileName string, fileBytes []byte) error {
 // parseArchive will go through the docx zip archive and read them into the FileMap.
 // Files inside the FileMap are those which can be modified by the lib.
 // Currently not all files are read, only:
-// 	- word/document.xml
-//	- word/header*.xml
-//	- word/footer*.xml
+//   - word/document.xml
+//   - word/header*.xml
+//   - word/footer*.xml
 func (d *Document) parseArchive() error {
 	readZipFile := func(file *zip.File) []byte {
 		readCloser, err := file.Open()
