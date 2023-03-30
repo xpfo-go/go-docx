@@ -400,7 +400,7 @@ func (d *Document) Close() {
 	if d.docxFile != nil {
 		err := d.docxFile.Close()
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	}
 }
