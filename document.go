@@ -161,6 +161,23 @@ func (d *Document) Replace(key, value string) error {
 	return nil
 }
 
+// Get placeholders in a human readable form
+func (d *Document) GetPlaceHoldersList() ([]string, error) {
+	var placeholdersTextList []string
+
+	for file := range d.files {
+		if _, ok := d.runParsers[file]; !ok {
+			return nil, fmt.Errorf("no parser for file %s", file)
+		}		
+		replacer := d.fileReplacers[file]
+		placeholders := replacer.placeholders
+		for _, placeholder := range placeholders {
+			placeholdersTextList = append(placeholdersTextList, placeholder.Text(replacer.document))
+		}
+	}
+
+	return placeholdersTextList, nil
+}
 // replace will create a parser on the given bytes, execute it and replace every placeholders found with the data
 // from the placeholderMap.
 func (d *Document) replace(placeholderMap PlaceholderMap, file string) ([]byte, error) {
