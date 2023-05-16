@@ -87,7 +87,6 @@ func main() {
 
 #### Placholders
 Placeholders are delimited with `{` and `}`, nesting of placeholders is not possible.
-Currently, there is no way to change the placeholders as I do not see a reason to do so.
 
 #### Styling
 The way this lib works is that a placeholder is just a list of fragments. When detecting the placeholders inside the XML, it looks for the OpenDelimiter and CloseDelimiter.
