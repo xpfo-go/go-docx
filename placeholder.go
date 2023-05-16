@@ -7,12 +7,18 @@ import (
 	"strings"
 )
 
-const (
+var (
 	// OpenDelimiter defines the opening delimiter for the placeholders used inside a docx-document.
 	OpenDelimiter rune = '{'
 	// CloseDelimiter defines the closing delimiter for the placeholders used inside a docx-document.
 	CloseDelimiter rune = '}'
 )
+
+// ChangeOpenCloseDelimiter is used for change the open and close delimiters
+func ChangeOpenCloseDelimiter(openDelimiter, closeDelimiter rune) {
+	OpenDelimiter = openDelimiter
+	CloseDelimiter = closeDelimiter
+}
 
 var (
 	// OpenDelimiterRegex is used to quickly match the opening delimiter and find it'str positions.
@@ -91,7 +97,6 @@ func ParsePlaceholders(runs DocumentRuns, docBytes []byte) (placeholders []*Plac
 		openPos := delimPositions(openDelimPositions)
 		closePos := delimPositions(closeDelimPositions)
 
-
 		// In case there are the same amount of open and close delimiters.
 		// Here we will have three three different sub-cases.
 		// Case 1 (default):
@@ -128,7 +133,7 @@ func ParsePlaceholders(runs DocumentRuns, docBytes []byte) (placeholders []*Plac
 				if len(openPos) == 1 {
 					return false
 				}
-				if openPos[0] < closePos [0] &&
+				if openPos[0] < closePos[0] &&
 					openPos[1] < closePos[0] {
 					return true
 				}
@@ -153,7 +158,7 @@ func ParsePlaceholders(runs DocumentRuns, docBytes []byte) (placeholders []*Plac
 				}
 
 				// everything up to firstClosePos belongs to the currently open placeholder
-				fragment := NewPlaceholderFragment(0, Position{0, int64(firstClosePos)+1}, run)
+				fragment := NewPlaceholderFragment(0, Position{0, int64(firstClosePos) + 1}, run)
 				unclosedPlaceholder.Fragments = append(unclosedPlaceholder.Fragments, fragment)
 				placeholders = append(placeholders, unclosedPlaceholder)
 
