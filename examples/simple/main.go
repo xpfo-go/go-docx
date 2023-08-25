@@ -30,7 +30,8 @@ func main() {
 		"mixed-key.separator_styles#": "REPLACE",
 		"yet-another_placeholder":     "REPLACE",
 		"foo":                         "bar",
-		"newlinetester":               "hello1\nhello2\nhello3",
+		"ampersand":                   "foo & bar",
+		"newlinetester":               "foo\nbar",
 	}
 
 	doc, err := docx.Open(templatePath)
