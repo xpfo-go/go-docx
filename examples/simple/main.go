@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
 	"time"
 
 	"github.com/lukasjarosch/go-docx"
@@ -47,6 +48,18 @@ func main() {
 	}
 
 	log.Printf("replace took: %s", time.Since(startTime))
+
+	bs, err := os.ReadFile("./cameraman.jpg")
+	if err != nil {
+		panic(err)
+	}
+
+	err = doc.SetFile("word/media/image1.jpg", bs)
+	if err != nil {
+		panic(err)
+	}
+
+	log.Printf("replace image took: %s", time.Since(startTime))
 
 	err = doc.WriteToFile(outputPath)
 	if err != nil {
