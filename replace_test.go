@@ -32,6 +32,18 @@ func TestReplacer_Replace(t *testing.T) {
 		return
 	}
 
+	bs, err := os.ReadFile("./test/cameraman.jpg")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	err = doc.SetFile("word/media/image1.jpg", bs)
+	if err != nil {
+		t.Error("replacing image failed", err)
+		return
+	}
+
 	err = doc.WriteToFile("./test/out.docx")
 	if err != nil {
 		t.Error("unable to write", err)

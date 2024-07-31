@@ -77,6 +77,19 @@ func main() {
 	    panic(err)
 	}
 
+        // read the replacement image
+	bs, err := os.ReadFile("./test/cameraman.jpg")
+	if err != nil {
+	    panic(err)
+	}
+
+        // replace the lenna image with the cameraman image
+        // image attributes, e.g. size, position, keep unchanged
+	err = doc.SetFile("word/media/image1.jpg", bs)
+	if err != nil {
+	    panic(err)
+	}
+
         // write out a new file
 	err = doc.WriteToFile("replaced.docx")
 	if err != nil {
@@ -97,6 +110,13 @@ This means that technically you can style only the OpenDelimiter inside the Word
 Although I do not recommend to do that as the WordprocessingML spec is somewhat fragile in this case. So it's best to just style the whole placeholder.
 
 But, for whatever reason there might be, you can do that.
+
+#### Image replace
+Image replacing is slightly different from text replacing. To replace an image, you need to know its path within the docx archive, rather than using a placeholder.
+
+To find the path, use unzip or similar tools to extract the contents of a docx file, then locate the image to be replaced inside the `word/media/` folder. Assume the path is `word/media/image1.jpg`, then you can use the `SetFile()` to overwrite the old image with a new one. It should be noted that:
+- The image format (encoding) should keep the same during the replacement.
+- Since the metadata of the image is not changed, only the image file itself is replaced, the new image will appear in its original location, with its original size. In other words, the image attributes keep unchanged.
 
 ### ➤ Terminology
 To not cause too much confusion, here is a list of terms which you might come across.
