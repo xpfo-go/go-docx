@@ -9,9 +9,9 @@ import (
 
 var (
 	// OpenDelimiter defines the opening delimiter for the placeholders used inside a docx-document.
-	OpenDelimiter rune = '['
+	OpenDelimiter rune = '「'
 	// CloseDelimiter defines the closing delimiter for the placeholders used inside a docx-document.
-	CloseDelimiter rune = ']'
+	CloseDelimiter rune = '」'
 )
 
 // ChangeOpenCloseDelimiter is used for change the open and close delimiters
