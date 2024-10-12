@@ -9,13 +9,13 @@ import (
 
 var (
 	// OpenDelimiter defines the opening delimiter for the placeholders used inside a docx-document.
-	OpenDelimiter rune = '「'
+	OpenDelimiter string = "@"
 	// CloseDelimiter defines the closing delimiter for the placeholders used inside a docx-document.
-	CloseDelimiter rune = '」'
+	CloseDelimiter string = "#"
 )
 
 // ChangeOpenCloseDelimiter is used for change the open and close delimiters
-func ChangeOpenCloseDelimiter(openDelimiter, closeDelimiter rune) {
+func ChangeOpenCloseDelimiter(openDelimiter, closeDelimiter string) {
 	OpenDelimiter = openDelimiter
 	CloseDelimiter = closeDelimiter
 }
@@ -250,8 +250,8 @@ func ParsePlaceholders(runs DocumentRuns, docBytes []byte) (placeholders []*Plac
 
 		// in order to catch false positives, ensure that all placeholders have BOTH delimiters
 		text := placeholder.Text(docBytes)
-		if !strings.ContainsRune(text, OpenDelimiter) ||
-			!strings.ContainsRune(text, CloseDelimiter) {
+		if !strings.Contains(text, OpenDelimiter) ||
+			!strings.Contains(text, CloseDelimiter) {
 			continue
 		}
 
@@ -304,7 +304,7 @@ func IsDelimitedPlaceholder(s string) bool {
 	}
 	first := s[0]
 	last := s[len(s)-1]
-	if rune(first) == OpenDelimiter && rune(last) == CloseDelimiter {
+	if string(first) == OpenDelimiter && string(last) == CloseDelimiter {
 		return true
 	}
 	return false

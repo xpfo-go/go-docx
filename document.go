@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"golang.org/x/net/html"
 	"io"
 	"io/ioutil"
 	"log"
@@ -12,8 +13,6 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-
-	"golang.org/x/net/html"
 )
 
 const (
@@ -114,7 +113,6 @@ func newDocument(zipFile *zip.Reader, path string, docxFile *os.File) (*Document
 
 	// parse all files
 	for name, data := range doc.files {
-
 		// find all runs
 		doc.runParsers[name] = NewRunParser(data)
 		err := doc.runParsers[name].Execute()
@@ -127,6 +125,7 @@ func newDocument(zipFile *zip.Reader, path string, docxFile *os.File) (*Document
 		if err != nil {
 			return nil, err
 		}
+
 		doc.filePlaceholders[name] = placeholder
 		doc.fileReplacers[name] = NewReplacer(data, placeholder)
 	}
